@@ -13,4 +13,8 @@ public class Player {
         this.playerNumber = playerNumber;
         cardHand = new ArrayList<>();
     }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }
