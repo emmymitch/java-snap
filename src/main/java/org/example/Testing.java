@@ -9,16 +9,19 @@ public class Testing {
         Card card = game.getCardDeck().get(51);
         System.out.println(card);
 
-        game.sortDeckInNumberOrder();
-        game.printCardDeck();
-        game.sortDeckIntoSuits();
-        game.printCardDeck();
-        game.shuffleDeck();
-        game.printCardDeck();
-        game.shuffleDeck();
-        game.dealCard();
-        game.printCardDeck();
-        game.sortDeckIntoSuits();
-        game.printCardDeck();
+//        game.sortDeckInNumberOrder();
+//        game.printCardDeck();
+//        game.sortDeckIntoSuits();
+//        game.printCardDeck();
+//        game.shuffleDeck();
+//        game.printCardDeck();
+//        game.shuffleDeck();
+//        game.dealCard();
+//        game.printCardDeck();
+//        game.sortDeckIntoSuits();
+//        game.printCardDeck();
+
+        Snap snap = new Snap();
+        snap.play();
     }
 }

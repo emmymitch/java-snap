@@ -42,7 +42,6 @@ public class CardGame {
     }
 
     protected Card dealCard() {
-        System.out.println(this.cardDeck.get(0));
         return this.cardDeck.get(0);
     }
 
