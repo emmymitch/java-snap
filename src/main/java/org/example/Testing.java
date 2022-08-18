@@ -4,8 +4,14 @@ public class Testing {
 
     public static void main(String[] args) {
         CardGame game = new CardGame();
-        game.getCardDeck();
-        Card card = game.getDeckArray().get(51);
+        game.printCardDeck();
+
+        Card card = game.getCardDeck().get(51);
         System.out.println(card);
+
+        game.sortDeckInNumberOrder();
+        game.printCardDeck();
+        game.sortDeckIntoSuits();
+        game.printCardDeck();
     }
 }

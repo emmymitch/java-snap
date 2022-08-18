@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CardGame {
 
@@ -28,16 +29,28 @@ public class CardGame {
         this.gameName = gameName;
     }
 
-    protected ArrayList<Card> getDeckArray() {
+    protected ArrayList<Card> getCardDeck() {
         return cardDeck;
+    }
+
+    public void printCardDeck() {
+        System.out.println(cardDeck.toString());
     }
 
     public void setCardDeck(ArrayList<Card> cardDeck) {
         this.cardDeck = cardDeck;
     }
 
-    public void getCardDeck() {
-        System.out.println(cardDeck.toString());
+    protected Card dealCard() {
+        return this.cardDeck.get(0);
     }
 
+    public void sortDeckInNumberOrder() {
+        Collections.sort(this.cardDeck, (a, b) -> a.getValue() - b.getValue());
+    }
+
+    public void sortDeckIntoSuits() {
+        sortDeckInNumberOrder();
+        Collections.sort(this.cardDeck, (a, b) -> a.getSuit().compareTo(b.getSuit()));
+    }
 }
