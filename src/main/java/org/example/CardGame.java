@@ -42,6 +42,7 @@ public class CardGame {
     }
 
     protected Card dealCard() {
+        System.out.println(this.cardDeck.get(0));
         return this.cardDeck.get(0);
     }
 
@@ -52,5 +53,9 @@ public class CardGame {
     public void sortDeckIntoSuits() {
         sortDeckInNumberOrder();
         Collections.sort(this.cardDeck, (a, b) -> a.getSuit().compareTo(b.getSuit()));
+    }
+
+    public void shuffleDeck() {
+        Collections.shuffle(this.cardDeck);
     }
 }

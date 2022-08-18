@@ -13,5 +13,12 @@ public class Testing {
         game.printCardDeck();
         game.sortDeckIntoSuits();
         game.printCardDeck();
+        game.shuffleDeck();
+        game.printCardDeck();
+        game.shuffleDeck();
+        game.dealCard();
+        game.printCardDeck();
+        game.sortDeckIntoSuits();
+        game.printCardDeck();
     }
 }
