@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Snap extends CardGame{
 
@@ -9,7 +11,42 @@ public class Snap extends CardGame{
     private boolean isGameFinished = false;
     private ArrayList<Card> usedCards = new ArrayList<>();
     private ArrayList<Player> playerList = new ArrayList<>();
-    private String checkSnap = "";
+
+    private String endState = "player lose";
+    private Scanner snapInput = new Scanner(System.in);
+    private boolean timeUp = false;
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            try{
+                snapInput.match().group();
+
+            } catch (IllegalStateException ise) {
+                System.out.println("You missed the snap! Keep playing...");
+                timeUp = true;
+            }
+        }
+    };
+
+    public void checkForSnap(TimerTask task) {
+        Timer timer = new Timer();
+        timeUp = false;
+
+        //Make timer 2s
+        timer.schedule( task, 2*1000 );
+        String checkSnap = snapInput.nextLine();
+        timer.cancel();
+
+        //Check if snapped on time
+        if (!timeUp && checkSnap.equalsIgnoreCase("snap")){
+            endState = "player win";
+            isGameFinished = true;
+
+        } else if (timeUp) {
+            System.out.println("You're too late!");
+        }
+    }
 
     public void playSinglePlayer() {
         this.isGameFinished = false;
@@ -87,12 +124,15 @@ public class Snap extends CardGame{
         //Initialise card2 for reassignment
         Card card2;
 
+
         while (!isGameFinished){
             //Loop through player turns
             for (int i = 0; i < numberOfPlayers; i++) {
                 System.out.println("    ");
+                System.out.println("    ");
+
                 //Display card to match
-                System.out.println(card1);
+                System.out.println("Top card: " + card1);
 
                 //Wait for input
                 System.out.println("Player " + playerList.get(i).getPlayerNumber() + " turn");
@@ -100,7 +140,8 @@ public class Snap extends CardGame{
 
                 //If player runs out of cards, game over
                 if (playerList.get(i).cardHand.size() == 0){
-                    System.out.println("You've run out of cards!");
+                    endState = "no cards left";
+                    endGame(endState, playerList.get(i).getPlayerNumber());
                     break;
                 }
 
@@ -111,19 +152,49 @@ public class Snap extends CardGame{
                 //Check if equal to prev card
                 if (card1.getValue() == card2.getValue()){
                     //End game if so
-                    System.out.println("Snap!");
-                    System.out.println("Player " + playerList.get(i).getPlayerNumber() + " wins!");
-                    isGameFinished = true;
-                    break;
+                    //System.out.println("Snap!");
+
+//                    if (checkSnap.toLowerCase().equals("snap")){
+//                        System.out.println("Player " + playerList.get(i).getPlayerNumber() + " wins!");
+//                        isGameFinished = true;
+//                        break;
+//                    } else {
+//                        System.out.println("You missed the snap! Keep playing...");
+//                    }
+
+
+
+                    //Run timer to write snap
+                    checkForSnap(task);
+                    //Can't break loop in separate function so check here
+                    if (isGameFinished){
+                        endGame(endState, playerList.get(i).getPlayerNumber());
+                        break;
+                    }
 
                 } else {
                     //If not carry on
                     System.out.println("No match!");
                     card1 = card2;
                 }
-
-
             }
+        }
+    }
+
+    public void endGame(String endState, int player) {
+        switch (endState){
+            case "player win":
+                System.out.println("Player " + player + " wins!");
+                break;
+
+            case "no cards left":
+                System.out.println("You've run out of cards!");
+                break;
+
+            case "player lose":
+            default:
+                System.out.println("You lost :(");
+                break;
         }
     }
 
