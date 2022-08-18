@@ -22,6 +22,6 @@ public class Testing {
 //        game.printCardDeck();
 
         Snap snap = new Snap();
-        snap.playMultiplayer(3);
+        snap.playMultiplayer(10);
     }
 }

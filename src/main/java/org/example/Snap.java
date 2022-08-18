@@ -9,6 +9,7 @@ public class Snap extends CardGame{
     private boolean isGameFinished = false;
     private ArrayList<Card> usedCards = new ArrayList<>();
     private ArrayList<Player> playerList = new ArrayList<>();
+    private String checkSnap = "";
 
     public void playSinglePlayer() {
         this.isGameFinished = false;
@@ -18,7 +19,7 @@ public class Snap extends CardGame{
         System.out.println("Single player: match card symbols only, press enter to deal your card");
         System.out.println("E.g. 7♥ matches 7♤");
         System.out.println(" ");
-        System.out.println("Press enter to start");
+        System.out.println("Press Enter to start");
         String start = input.nextLine();
 
         while (!isGameFinished){
@@ -97,6 +98,12 @@ public class Snap extends CardGame{
                 System.out.println("Player " + playerList.get(i).getPlayerNumber() + " turn");
                 String wait = input.nextLine();
 
+                //If player runs out of cards, game over
+                if (playerList.get(i).cardHand.size() == 0){
+                    System.out.println("You've run out of cards!");
+                    break;
+                }
+
                 //Deal card; remove from hand as has been played
                 card2 = playerList.get(i).cardHand.remove(0);
                 System.out.println(card2);
@@ -107,6 +114,7 @@ public class Snap extends CardGame{
                     System.out.println("Snap!");
                     System.out.println("Player " + playerList.get(i).getPlayerNumber() + " wins!");
                     isGameFinished = true;
+                    break;
 
                 } else {
                     //If not carry on
@@ -114,7 +122,7 @@ public class Snap extends CardGame{
                     card1 = card2;
                 }
 
-                //If player runs out of cards, game over
+
             }
         }
     }
