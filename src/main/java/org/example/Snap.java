@@ -9,7 +9,7 @@ public class Snap extends CardGame{
     private boolean isGameFinished = false;
     private ArrayList<Card> usedCards = new ArrayList<>();
 
-    public void play() {
+    public void playSinglePlayer() {
         Scanner input = new Scanner(System.in);
 
         System.out.println("Let's play snap!");
@@ -20,6 +20,7 @@ public class Snap extends CardGame{
         String start = input.nextLine();
 
         while (!isGameFinished){
+            System.out.println(" ");
             this.shuffleDeck();
             Card card1 = this.dealCard();
             usedCards.add(card1);
@@ -32,6 +33,7 @@ public class Snap extends CardGame{
             Card card2 = this.dealCard();
             //Check if in used pile
             while (usedCards.contains(card2)){
+                this.shuffleDeck();
                 card2 = this.dealCard();
             }
             usedCards.add(card2);
