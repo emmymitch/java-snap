@@ -8,12 +8,12 @@ import java.util.TimerTask;
 public class Snap extends CardGame{
 
     public final String GAME_NAME = "Snap";
-    private boolean isGameFinished = false;
+    private boolean gameFinished = false;
     private ArrayList<Card> usedCards = new ArrayList<>();
     private ArrayList<Player> playerList = new ArrayList<>();
 
     private String endState = "player lose";
-    private Scanner snapInput = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
     private boolean timeUp = false;
 
     public ArrayList<Player> getPlayerList() {
@@ -33,14 +33,14 @@ public class Snap extends CardGame{
         timeUp = false;
 
         //Make timer 2s
-        timer.schedule( task, 2*1000 );
-        String checkSnap = snapInput.nextLine();
+        timer.schedule( task, 3*1000 );
+        String checkSnap = input.nextLine();
         timer.cancel();
 
         //Check if snapped on time
         if (!timeUp && checkSnap.equalsIgnoreCase("snap")){
             endState = "player win";
-            isGameFinished = true;
+            gameFinished = true;
 
         } else if (timeUp) {
             System.out.println("You're too late!");
@@ -48,8 +48,7 @@ public class Snap extends CardGame{
     }
 
     public void playSinglePlayer() {
-        this.isGameFinished = false;
-        Scanner input = new Scanner(System.in);
+        this.gameFinished = false;
 
         System.out.println("Let's play snap!");
         System.out.println("Single player: match card symbols only, press enter to deal your card");
@@ -58,7 +57,7 @@ public class Snap extends CardGame{
         System.out.println("Press Enter to start");
         String start = input.nextLine();
 
-        while (!isGameFinished){
+        while (!gameFinished){
             System.out.println(" ");
             this.shuffleDeck();
 
@@ -86,7 +85,7 @@ public class Snap extends CardGame{
 
             if (card1.getValue() == card2.getValue()){
                 System.out.println("Snap!");
-                isGameFinished = true;
+                gameFinished = true;
 
             } else {
                 System.out.println("No match!");
@@ -95,7 +94,7 @@ public class Snap extends CardGame{
     }
 
     public void playMultiplayer(int numberOfPlayers){
-        this.isGameFinished = false;
+        this.gameFinished = false;
 
         //Initial shuffle
         this.shuffleDeck();
@@ -114,20 +113,17 @@ public class Snap extends CardGame{
             playerList.add(new Player(i+1));
 
             //Get name for player
-            Scanner in = new Scanner(System.in);
-            System.out.println("Enter name for Player " + playerList.get(i).playerNumber + ":");
-            playerList.get(i).setName(in.nextLine());
+            System.out.println("Enter name for Player " + playerList.get(i).getPlayerNumber() + ":");
+            playerList.get(i).setName(input.nextLine());
 
 
             //Deal the player a hand
             int initialIndex = (this.getCardDeck().size() / numberOfPlayers) * i;
-            int finalIndex = ((this.getCardDeck().size() / numberOfPlayers) * playerList.get(i).playerNumber);
+            int finalIndex = ((this.getCardDeck().size() / numberOfPlayers) * playerList.get(i).getPlayerNumber());
             //Create copy of list so separate from og card deck
-            playerList.get(i).cardHand = new ArrayList<>(this.getCardDeck().subList(initialIndex, finalIndex)) ;
+            playerList.get(i).setCardHand(new ArrayList<>(this.getCardDeck().subList(initialIndex, finalIndex)));
 
         }
-
-        Scanner input = new Scanner(System.in);
 
         //Game start instructions
         System.out.println("Type snap and press enter when you see a snap to win!");
@@ -141,7 +137,7 @@ public class Snap extends CardGame{
         Card card2;
 
 
-        while (!isGameFinished){
+        while (!gameFinished){
             //Loop through player turns
             for (int i = 0; i < numberOfPlayers; i++) {
                 System.out.println("    ");
@@ -155,14 +151,14 @@ public class Snap extends CardGame{
                 String wait = input.nextLine();
 
                 //If player runs out of cards, game over
-                if (playerList.get(i).cardHand.size() == 0){
+                if (playerList.get(i).getCardHand().size() == 0){
                     endState = "no cards left";
                     endGame(endState, playerList.get(i).getName());
                     break;
                 }
 
                 //Deal card; remove from hand as has been played
-                card2 = playerList.get(i).cardHand.remove(0);
+                card2 = playerList.get(i).getCardHand().remove(0);
                 System.out.println(card2);
 
                 //Check if equal to prev card
@@ -170,7 +166,7 @@ public class Snap extends CardGame{
                     //If so run timer to write snap
                     checkForSnap(task);
                     //Can't break loop in separate function so check here
-                    if (isGameFinished){
+                    if (gameFinished){
                         endGame(endState, playerList.get(i).getName());
                         break;
                     }

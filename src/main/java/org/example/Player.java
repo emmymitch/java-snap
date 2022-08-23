@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Player {
 
-    int playerNumber;
-    String name;
-    List<Card> cardHand;
+    private int playerNumber;
+    private String name;
+    private List<Card> cardHand;
 
 
     public Player(int playerNumber) {
@@ -26,11 +26,23 @@ public class Player {
         return playerNumber;
     }
 
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Card> getCardHand() {
+        return cardHand;
+    }
+
+    public void setCardHand(List<Card> cardHand) {
+        this.cardHand = cardHand;
     }
 }
